@@ -2,14 +2,14 @@
   tags: apache,apache2,ubuntu
   apt:
     name:
-      - apache2
-      - libapache2-mod-php
-  when: ansible_distribution == "Ubuntu"
+      - "{{ apache_package_name }}"
+      - "{{ php_package_name }}"
+    state: latest
 
 - name: restart apache2
   tags: apache2
   service: 
-    name: apache2
+    name: "{{ apache_service }}"
     state: restarted
   
 - name: copy default html site
