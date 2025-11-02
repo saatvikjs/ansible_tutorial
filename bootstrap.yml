@@ -1,0 +1,39 @@
+---
+
+- hosts: all
+  become: true
+  tasks:
+
+  - name: install updates
+    tags: always
+    apt:
+      upgrade: dist
+      update_cache: yes
+    when: ansible_distribution == "Ubuntu"
+
+- hosts: all
+  become: true
+  tasks: 
+
+  - name: create user Kemi
+    tags: always
+    user: 
+      name: kemi
+      group: root
+      
+  - name: add ssh key for kemi
+    tags: always
+    authorized_key:
+      user: kemi
+      key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIRHJRQzzMVSYbpgcwr3veuTg8rjVHBbrmsj0dUIMngG ansible"
+
+  - name: add sudoers file for kemi
+    tags: always
+    copy:
+      src: sudoer_kemi
+      dest: /etc/sudoers.d/kemi
+      owner: root
+      group: root
+      mode: 0440
+
+
