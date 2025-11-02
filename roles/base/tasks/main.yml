@@ -1,0 +1,4 @@
+- name: add ssh key for kemi
+  authorized_key:
+    user: kemi
+    key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIRHJRQzzMVSYbpgcwr3veuTg8rjVHBbrmsj0dUIMngG ansible"

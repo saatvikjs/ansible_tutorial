@@ -1,0 +1,43 @@
+- name: install apache and php packages
+  tags: apache,apache2,ubuntu
+  apt:
+    name:
+      - apache2
+      - libapache2-mod-php
+  when: ansible_distribution == "Ubuntu"
+
+- name: restart apache2
+  tags: apache2
+  service: 
+    name: apache2
+    state: restarted
+  
+- name: copy default html site
+  tags: apache,apache2
+  copy:
+    src: default_site.html
+    dest: /var/www/html/index.html
+    owner: root
+    group: root
+    mode: 0644
+
+- name: start apache2
+  tags: apache2
+  service: 
+    name: apache2
+    state: started
+    enabled: yes
+  when: ansible_distribution == "Ubuntu"
+
+- name: install unzip
+  package:
+    name: unzip
+
+- name: install terraform
+  unarchive:
+    src: https://releases.hashicorp.com/terraform/0.12.28/terraform_0.12.28_linux_amd64.zip
+    dest: /usr/local/bin
+    remote_src: yes
+    mode: 0755
+    owner: root
+    group: root
